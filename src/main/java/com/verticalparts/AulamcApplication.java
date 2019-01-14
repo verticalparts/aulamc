@@ -1,5 +1,6 @@
 package com.verticalparts;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.verticalparts.domain.Cidade;
 import com.verticalparts.domain.Cliente;
 import com.verticalparts.domain.Endereco;
 import com.verticalparts.domain.Estado;
+import com.verticalparts.domain.Pedido;
 import com.verticalparts.domain.Produto;
 import com.verticalparts.domain.enums.TipoCliente;
 import com.verticalparts.repositories.CategoriaRepository;
@@ -19,6 +21,7 @@ import com.verticalparts.repositories.CidadeRepository;
 import com.verticalparts.repositories.ClienteRepository;
 import com.verticalparts.repositories.EnderecoRepository;
 import com.verticalparts.repositories.EstadoRepository;
+import com.verticalparts.repositories.PedidoRepository;
 import com.verticalparts.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -36,6 +39,8 @@ public class AulamcApplication implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AulamcApplication.class, args);
@@ -84,6 +89,15 @@ public class AulamcApplication implements CommandLineRunner {
 		
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("20/04/2018 08:44"), cli1, e2);
+		Pedido ped2 = new Pedido(null, sdf.parse("11/11/2018 18:20"), cli1, e1);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		
 	}
 
