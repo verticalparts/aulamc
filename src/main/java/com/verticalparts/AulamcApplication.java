@@ -13,6 +13,7 @@ import com.verticalparts.domain.Cidade;
 import com.verticalparts.domain.Cliente;
 import com.verticalparts.domain.Endereco;
 import com.verticalparts.domain.Estado;
+import com.verticalparts.domain.ItemPedido;
 import com.verticalparts.domain.Pedido;
 import com.verticalparts.domain.Produto;
 import com.verticalparts.domain.enums.TipoCliente;
@@ -21,6 +22,7 @@ import com.verticalparts.repositories.CidadeRepository;
 import com.verticalparts.repositories.ClienteRepository;
 import com.verticalparts.repositories.EnderecoRepository;
 import com.verticalparts.repositories.EstadoRepository;
+import com.verticalparts.repositories.ItemPedidoRepository;
 import com.verticalparts.repositories.PedidoRepository;
 import com.verticalparts.repositories.ProdutoRepository;
 
@@ -41,6 +43,8 @@ public class AulamcApplication implements CommandLineRunner {
 	private EnderecoRepository enderecoRepository;
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AulamcApplication.class, args);
@@ -99,6 +103,16 @@ public class AulamcApplication implements CommandLineRunner {
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		
+		ItemPedido ip1 = new ItemPedido(ped1, p2, 7);
+		ItemPedido ip2 = new ItemPedido(ped2, p3, 20);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1));
+		ped2.getItens().addAll(Arrays.asList(ip2));
+		
+		p2.getItens().addAll(Arrays.asList(ip1));
+		p3.getItens().addAll(Arrays.asList(ip2));	
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2));
 	}
 
 }
